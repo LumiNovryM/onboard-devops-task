@@ -1,0 +1,12 @@
+{
+    "LOG": {
+      "filename": "./logs/backend.%Y-%b-%d-%H-%M.log",
+      "symlinkName": "./logs/backend.log",
+      "addSource": false,
+      "multiwriter": true,
+      "level": 0,
+      "timeFormat": "2006-01-02 15:04:05",
+      "retentionInDays": 30,
+      "rotateInHour": 24
+    }
+} 
