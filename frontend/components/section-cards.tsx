@@ -1,5 +1,6 @@
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
+"use client"
 
+import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
 import { Badge } from "@/components/ui/badge"
 import {
   Card,
@@ -9,15 +10,40 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+
+
+interface Message {
+  id: number
+  sender_id: number
+  receiver_id: number
+  content: string
+  created_at: string
+}
+
+interface ApiResponse {
+  data: Message[]
+}
 
 export function SectionCards() {
+
+  const [data, setData] = useState<ApiResponse | null>(null)
+
+
+   useEffect(() => {
+    axios.get('http://localhost:8080/api/messages')
+      .then((res) => setData(res.data))
+      .catch((err) => console.error(err))
+  }, [])
+
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
+          <CardDescription>Total Messages</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            {data?.data.length ?? 0}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -31,15 +57,15 @@ export function SectionCards() {
             Trending up this month <IconTrendingUp className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            Visitors for the last 6 months
+            Messages for the last 6 months
           </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>New Customers</CardDescription>
+          <CardDescription>New Users</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
+            {data?.data.length ?? 0}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -61,7 +87,7 @@ export function SectionCards() {
         <CardHeader>
           <CardDescription>Active Accounts</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
+            {data?.data.length ?? 0}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -79,9 +105,9 @@ export function SectionCards() {
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
+          <CardDescription>Total Senders</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
+            {data?.data.length ?? 0}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">

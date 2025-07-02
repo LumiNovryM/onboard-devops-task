@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	_ "github.com/joho/godotenv/autoload"
+	"github.com/gin-contrib/cors"
 
 	// Utils
 	"backend/app/utils"
@@ -32,6 +33,14 @@ func main() {
 	utils.PRINT_LOG("INFO", "SERVICE IS RUNNING", "", "")
 
 	r := gin.Default()
+
+	// CORS Middleware
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		AllowCredentials: true,
+	}))
 
 	// Refuse Trace Method
 	r.Use(utils.DISABLE_TRACE_METHOD())
