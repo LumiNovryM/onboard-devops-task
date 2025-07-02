@@ -26,4 +26,6 @@ COPY --from=builder /go/bin/user /go/bin/user
 ENV FIBER_MODE=release
 ENV TZ=Asia/Jakarta
 
-ENTRYPOINT ["/go/bin/user"]
+COPY wait-for-postgres.sh /wait-for-postgres.sh
+RUN chmod +x /wait-for-postgres.sh
+ENTRYPOINT ["/wait-for-postgres.sh", "/go/bin/user"]
