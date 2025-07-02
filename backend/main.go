@@ -52,6 +52,11 @@ func main() {
 	// Status API
 	// Get
 	r.GET("/api/status", controllers.GetAllStatus)
-	
-	r.Run()
+
+	port := os.Getenv("BACKEND_PORT")
+	if port == "" {
+		port = "8080"
+	}
+	r.Run(":" + port)
+
 }

@@ -15,7 +15,11 @@ import (
 var DB *gorm.DB
 
 func OpenConnection() (*sql.DB, error) {
-	db, err := sql.Open("postgres", os.Getenv("POSTGRES_URL"))
+	dsn := os.Getenv("POSTGRES_URL")
+	if dsn == "" {
+		dsn = buildDSNFromEnv()
+	}
+	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		return nil, err
 	}
@@ -31,8 +35,8 @@ func InitDB() {
 
 	dsn := os.Getenv("POSTGRES_URL")
 	if dsn == "" {
-		utils.PRINT_LOG("ERROR", "Missing POSTGRES_URL in .env", utils.GetLocation(), "")
-		return
+		utils.PRINT_LOG("WARNING", "POSTGRES_URL not found, using individual env variables instead", utils.GetLocation(), "")
+		dsn = buildDSNFromEnv()
 	}
 
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
@@ -40,4 +44,16 @@ func InitDB() {
 		utils.PRINT_LOG("ERROR", "Failed To Connect Database With GORM...", utils.GetLocation(), err.Error())
 		return
 	}
+}
+
+// Fallback builder dari env kalau POSTGRES_URL tidak tersedia
+func buildDSNFromEnv() string {
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DB_NAME")
+
+	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
 }

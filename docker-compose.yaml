@@ -1,20 +1,41 @@
-version: '3.8'
-
 services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        GOVERSION: 1.24.4
+        ALPINEVERSION: 3.22
+    container_name: backend-service
+    env_file: .env
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-net
+
   db:
     image: postgres:16
     container_name: postgres-db
     restart: always
     env_file: .env
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - app-net
 
 volumes:
-  postgres_data:
+  pgdata:
+
+networks:
+  app-net:
