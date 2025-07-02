@@ -6,7 +6,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
       args:
-        GOVERSION: 1.22.4
+        GOVERSION: 1.24.4
         ALPINEVERSION: 3.22
     container_name: backend-service
     env_file: .env

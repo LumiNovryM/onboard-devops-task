@@ -26,12 +26,6 @@ func main() {
 		}
 	}
 
-	// Check if environment variables are set
-	checkEnv := utils.CHECK_ENV()
-	if !checkEnv {
-		utils.PRINT_LOG("ERROR", "FAILED CHECK ENV", utils.GetLocation(), "Failed To Load ENV, Please Check Configuration...")
-	}
-
 	connection.InitDB()
 
 	gin.SetMode(gin.ReleaseMode)
