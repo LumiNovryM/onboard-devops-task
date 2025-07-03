@@ -35,13 +35,13 @@ const data = {
   },
   navMain: [
     {
-      title: "Messages",
-      url: "#",
+      title: "Submit Messages",
+      url: "/submit-messages",
       icon: IconDashboard,
     },
     {
-      title: "Status",
-      url: "#",
+      title: "Status Summary",
+      url: "/status-summary",
       icon: IconChartBar,
     },
 

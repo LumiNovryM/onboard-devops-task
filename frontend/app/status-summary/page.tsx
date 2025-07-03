@@ -1,5 +1,7 @@
+"use client"
+
 import { AppSidebar } from "@/components/app-sidebar"
-import { DataTable } from "@/components/data-table"
+import { DataTable } from "@/components/data-table-status"
 import { SectionCards } from "@/components/section-cards"
 import { SiteHeader } from "@/components/site-header"
 import {
@@ -10,27 +12,27 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 
-interface Message {
+interface Status {
   id: number
-  sender_id: number
-  receiver_id: number
-  content: string
-  created_at: string
+  message_id: number
+  status: string
+  updated_at: string
 }
 
 interface ApiResponse {
-  data: Message[]
+  data: Status[]
 }
-
 
 export default function Page() {
     const [data, setData] = useState<ApiResponse | null>(null)
-  
-     useEffect(() => {
-      axios.get('http://localhost:8080/api/messages')
-        .then((res) => setData(res.data))
-        .catch((err) => console.error(err))
-    }, [])
+    
+      console.log("Data Status", data)
+    
+       useEffect(() => {
+        axios.get('http://localhost:8080/api/status')
+          .then((res) => setData(res.data))
+          .catch((err) => console.error(err))
+      }, [])
   return (
     <SidebarProvider
       style={

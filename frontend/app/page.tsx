@@ -1,7 +1,7 @@
 "use client"
 
 import { AppSidebar } from "@/components/app-sidebar"
-import { DataTable } from "@/components/data-table"
+import { DataTable } from "@/components/data-table-messages"
 import { SectionCards } from "@/components/section-cards"
 import { SiteHeader } from "@/components/site-header"
 import {
@@ -27,7 +27,7 @@ interface ApiResponse {
 export default function Page() {
     const [data, setData] = useState<ApiResponse | null>(null)
     
-      console.log("data", data)
+      console.log("Data Messages", data)
     
        useEffect(() => {
         axios.get('http://localhost:8080/api/messages')
