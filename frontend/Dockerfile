@@ -6,12 +6,17 @@ COPY package*.json ./
 COPY .env .env
 RUN npm install
 
-COPY . . 
+COPY . .
 
 RUN npm run build
 
-FROM nginx:alpine
-COPY --from=builder /app/build /usr/share/nginx/html
+FROM node:22-alpine
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+WORKDIR /app
+
+COPY --from=builder /app ./
+
+ENV NODE_ENV=production
+EXPOSE 3000
+
+CMD ["npm", "start"]
