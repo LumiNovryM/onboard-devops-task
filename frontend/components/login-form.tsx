@@ -38,7 +38,7 @@ export function LoginForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      await axios.post("http://localhost:8080/api/messages", {
+      await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/${process.env.NEXT_PUBLIC_MESSAGES_URL}`, {
         sender_id: Number(formData.sender_id),
         receiver_id: Number(formData.receiver_id),
         content: formData.content,
